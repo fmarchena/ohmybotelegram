@@ -83,7 +83,7 @@ def escape_markdown_v2(text):
 def send_telegram_alert(new_secret):
     """ Envía una notificación a Telegram cuando cambia el JWT_SECRET. """
     escaped_secret = escape_markdown_v2(new_secret)
-    message = f"⚠️ *Alerta:* El valor de `JWT_SECRET` ha cambiado.\n\n*Nuevo valor:*\n`{escaped_secret}`\n\n*Código de seguridad:* `{WEBHOOK_SECRET}`"
+    message = f"  El valor de `JWT_SECRET` ha cambiado. Nuevo valor: `{escaped_secret}` "
 
     data = {
         "chat_id": CHAT_ID,
