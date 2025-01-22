@@ -26,7 +26,7 @@ def extract_env_file(container_name, source_path, destination_path):
 
 if __name__ == "__main__":
     CONTAINER_NAME = "JWT_SECRET"  # Nombre del contenedor con el .env
-    SOURCE_PATH = "/var/www/html"  # Ruta dentro del contenedor
+    SOURCE_PATH = "/var/www/html/.env"  # Ruta dentro del contenedor
     DEST_PATH = "/root/.env"  # Ruta donde guardar el archivo localmente
 
     extract_env_file(CONTAINER_NAME, SOURCE_PATH, DEST_PATH)
