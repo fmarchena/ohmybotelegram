@@ -22,6 +22,10 @@ previous_jwt_secret = None
 
 def extract_env_file():
     """ Extrae el archivo .env del contenedor Docker. """
+    print("Extrayendo el archivo .env del contenedor...")
+    print(f"Contenedor: {CONTAINER_NAME}")
+    print(f"Origen: {SOURCE_PATH}")
+    print(f"Destino: {DEST_PATH}")
     try:
         client = docker.from_env()
         container = client.containers.get(CONTAINER_NAME)
@@ -45,6 +49,8 @@ def extract_env_file():
 def read_jwt_secret():
     """ Lee el valor de JWT_SECRET del archivo .env extraído. """
     global previous_jwt_secret
+
+    print("Leyendo el valor de JWT_SECRET...")
 
     if os.path.exists(DEST_PATH):
         with open(DEST_PATH, 'r') as file:
