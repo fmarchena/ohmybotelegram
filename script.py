@@ -18,7 +18,7 @@ SOURCE_PATH = os.getenv("SOURCE_PATH")
 DEST_PATH =  os.getenv("DEST_PATH")
 
 
-previous_jwt_secret = None
+previous_jwt_secret = 'Antes de iniciar'
 
 def extract_env_file():
     """ Extrae el archivo .env del contenedor Docker. """
@@ -87,12 +87,12 @@ def send_telegram_alert(new_secret):
         print("Error al enviar notificación a Telegram:", response.text)
 
 def monitor_changes():
-    """ Bucle para monitorear cambios cada 10 minutos. """
+    """ Bucle para monitorear cambios cada 5 minutos. """
     while True:
         if extract_env_file():
             read_jwt_secret()
         print("Esperando 10 minutos para la próxima verificación...")
-        time.sleep(600)  # 600 segundos = 10 minutos
+        time.sleep(300)  # 600 segundos = 10 minutos
 
 if __name__ == "__main__":
     monitor_changes()
