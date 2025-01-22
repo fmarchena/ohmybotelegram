@@ -11,7 +11,7 @@ load_dotenv()
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_API_URL = os.getenv("TELEGRAM_API_URL")
 WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
-
+CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")  # Asegúrate de configurarlo
 # Variables de contenedor y archivo
 CONTAINER_NAME = os.getenv("CONTAINER_NAME")
 SOURCE_PATH = os.getenv("SOURCE_PATH")
@@ -71,21 +71,26 @@ def read_jwt_secret():
                         print("No hay cambios en JWT_SECRET.")
     else:
         print("El archivo .env no se encontró.")
+def escape_markdown_v2(text):
+    """ Escapa caracteres especiales para enviar texto en MarkdownV2 a Telegram. """
+    escape_chars = r"\_*[]()~`>#+-=|{}.!<>"
+    return re.sub(r"([{}])".format(re.escape(escape_chars)), r"\\\1", text)
 
 def send_telegram_alert(new_secret):
     """ Envía una notificación a Telegram cuando cambia el JWT_SECRET. """
-    message = f"⚠️ Alerta: El valor de JWT_SECRET ha cambiado.\n\nNuevo valor:\n`{new_secret}`\n\nCódigo de seguridad: `{WEBHOOK_SECRET}`"
+    escaped_secret = escape_markdown_v2(new_secret)
+    message = f"⚠️ *Alerta:* El valor de `JWT_SECRET` ha cambiado.\n\n*Nuevo valor:*\n`{escaped_secret}`\n\n*Código de seguridad:* `{WEBHOOK_SECRET}`"
+    
     data = {
-        "chat_id": "YOUR_TELEGRAM_CHAT_ID",  # Reemplazar con tu ID de chat de Telegram
+        "chat_id": CHAT_ID,
         "text": message,
-        "parse_mode": "Markdown"
+        "parse_mode": "MarkdownV2"
     }
     response = requests.post(TELEGRAM_API_URL, data=data)
     if response.status_code == 200:
         print("Notificación de cambio enviada a Telegram.")
     else:
         print("Error al enviar notificación a Telegram:", response.text)
-
 def monitor_changes():
     """ Bucle para monitorear cambios cada 5 minutos. """
     while True:
