@@ -25,7 +25,7 @@ def extract_env_file(container_name, source_path, destination_path):
         print(f"Error durante la extracción: {e}")
 
 if __name__ == "__main__":
-    CONTAINER_NAME = "JWT_SECRET"  # Nombre del contenedor con el .env
+    CONTAINER_NAME = "jwt-api-dev"  # Nombre del contenedor con el .env
     SOURCE_PATH = "/var/www/html/.env"  # Ruta dentro del contenedor
     DEST_PATH = "/root/.env"  # Ruta donde guardar el archivo localmente
 
@@ -36,6 +36,7 @@ if __name__ == "__main__":
         with open(DEST_PATH, 'r') as file:
             lines = file.readlines()
             for line in lines:
+                print(line.strip())
                 if line.startswith('JWT_SECRET='):
                     print(f"JWT_SECRET encontrado: {line.strip()}")
  
