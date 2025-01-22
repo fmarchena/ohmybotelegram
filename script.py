@@ -18,7 +18,7 @@ SOURCE_PATH = os.getenv("SOURCE_PATH")
 DEST_PATH = os.getenv("DEST_PATH")
 
 # Almacenar el último valor conocido del JWT_SECRET
-previous_jwt_secret = None
+previous_jwt_secret = '-'
 
 def extract_env_file():
     """ Extrae el archivo .env del contenedor Docker. """
